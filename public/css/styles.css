@@ -1,0 +1,10 @@
+html, body {
+    padding: 20px;
+    background-color: #343435;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1 {
+    font-size: 20px;
+    color: #d4d4dd;
+}
