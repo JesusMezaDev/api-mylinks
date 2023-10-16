@@ -3,7 +3,6 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { CreateLinkDto } from './dto/create-link.dto';
-import { UpdateLinkDto } from './dto/update-link.dto';
 
 import { Link } from './entities/link.entity';
 
@@ -26,25 +25,23 @@ export class LinksService {
     }
   }
 
-  async findOneByShortUrl(shortUrl: string) {
+  async findOneAndUpdateByShortUrl(shortUrl: string) {
     const link = await this.linknModel.findOne({ shortUrl });
     
     if (!link) throw new NotFoundException('No se encontró el link.')
 
     const { url } = link;
-
-    await this.updateAfterConsulting(link);
+    
+    try {
+      await link.updateOne({ visited: link.visited + 1 }, { new: false });
+    } catch (error) {
+      this.handleErrors(error);
+    }
 
     return {
       url,
       shortUrl: `${ process.env.MYSOFTLINKS_URL }/${ shortUrl }`,
     }
-  }
-
-  async updateAfterConsulting(updateLinkDto: UpdateLinkDto) {
-    updateLinkDto.visited = updateLinkDto.visited + 1;
-
-    await this.linknModel.updateOne(updateLinkDto, { new: false });
   }
 
   handleErrors(error: any) {

@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param/*, HttpCode, HttpStatus*/ } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param/*, HttpCode, HttpStatus*/ } from '@nestjs/common';
 
 import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
-// import { UpdateLinkDto } from './dto/update-link.dto';
 
 @Controller('links')
 export class LinksController {
@@ -16,8 +15,8 @@ export class LinksController {
 
   @Get(':shortUrl')
   // @HttpCode(HttpStatus.OK)
-  findOneByShortUrl(@Param('shortUrl') shortUrl: string) {
-    return this.linksService.findOneByShortUrl(shortUrl);
+  findOneAndUpdateByShortUrl(@Param('shortUrl') shortUrl: string) {
+    return this.linksService.findOneAndUpdateByShortUrl(shortUrl);
   }
 
   // @Patch(':shortUrl')
