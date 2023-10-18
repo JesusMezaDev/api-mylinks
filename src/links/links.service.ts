@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { CreateLinkDto } from './dto/create-link.dto';
@@ -24,6 +24,35 @@ export class LinksService {
       this.handleErrors(error);
     }
   }
+
+  async findOne(term: string) {
+    let link: Link;
+
+    if (isValidObjectId(term)) {
+      link = await this.linknModel.findById(term);
+      const { url, shortUrl, visited, createdAt } = link;
+      return {
+        url,
+        shortUrl,
+        visited,
+        createdAt
+      }
+    }
+
+    if (term.length === 8) {
+      return this.findOneAndUpdateByShortUrl(term);
+    }
+
+    link = await this.linknModel.findOne({ url: term });
+    const { url, shortUrl, visited, createdAt } = link;
+    return {
+      url,
+      shortUrl,
+      visited,
+      createdAt
+    }
+  }
+  
 
   async findOneAndUpdateByShortUrl(shortUrl: string) {
     const link = await this.linknModel.findOne({ shortUrl });

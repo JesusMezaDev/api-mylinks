@@ -15,8 +15,8 @@ export class LinksController {
 
   @Get(':shortUrl')
   // @HttpCode(HttpStatus.OK)
-  findOneAndUpdateByShortUrl(@Param('shortUrl') shortUrl: string) {
-    return this.linksService.findOneAndUpdateByShortUrl(shortUrl);
+  findOne(@Param('shortUrl') shortUrl: string) {
+    return this.linksService.findOne(shortUrl);
   }
 
   // @Patch(':shortUrl')
