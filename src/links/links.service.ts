@@ -26,28 +26,29 @@ export class LinksService {
   }
 
   async findOne(term: string) {
-    let link: Link;
-
-    if (isValidObjectId(term)) {
-      link = await this.linknModel.findById(term);
-      const { url, shortUrl, visited, createdAt } = link;
-      return {
-        url,
-        shortUrl,
-        visited,
-        createdAt
-      }
-    }
+    if (term.trim().length === 0) throw new BadRequestException('El termino de búsqueda no puede estar vacío.')
+    
+    let link: Link = undefined;
 
     if (term.length === 8) {
       return this.findOneAndUpdateByShortUrl(term);
     }
 
-    link = await this.linknModel.findOne({ url: term });
+    if (isValidObjectId(term)) {
+      link = await this.linknModel.findById(term);
+    }
+
+    if (!link && term) {
+      link = await this.linknModel.findOne({ url: term });
+    }
+
+    if (!link) throw new NotFoundException('No se encontró el link.')
+    
     const { url, shortUrl, visited, createdAt } = link;
+
     return {
       url,
-      shortUrl,
+      shortUrl: `${ process.env.MYSOFTLINKS_URL }#/${ shortUrl }`,
       visited,
       createdAt
     }
@@ -69,7 +70,7 @@ export class LinksService {
 
     return {
       url,
-      shortUrl: `${ process.env.MYSOFTLINKS_URL }/${ shortUrl }`,
+      shortUrl: `${ process.env.MYSOFTLINKS_URL }#/${ shortUrl }`,
     }
   }
 
