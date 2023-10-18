@@ -19,7 +19,7 @@ export class LinksService {
       
       const { url, shortUrl } =  link;
 
-      return { url, shortUrl: `${ process.env.MYSOFTLINKS_URL }/${ shortUrl }` }
+      return { url, shortUrl: `${ process.env.MYSOFTLINKS_URL }/#/${ shortUrl }` }
     } catch (error) {
       this.handleErrors(error);
     }
@@ -27,7 +27,7 @@ export class LinksService {
 
   async findOne(term: string) {
     if (term.trim().length === 0) throw new BadRequestException('El termino de búsqueda no puede estar vacío.')
-    
+
     let link: Link = undefined;
 
     if (term.length === 8) {
@@ -48,7 +48,7 @@ export class LinksService {
 
     return {
       url,
-      shortUrl: `${ process.env.MYSOFTLINKS_URL }#/${ shortUrl }`,
+      shortUrl: `${ process.env.MYSOFTLINKS_URL }/#/${ shortUrl }`,
       visited,
       createdAt
     }
@@ -70,7 +70,7 @@ export class LinksService {
 
     return {
       url,
-      shortUrl: `${ process.env.MYSOFTLINKS_URL }#/${ shortUrl }`,
+      shortUrl: `${ process.env.MYSOFTLINKS_URL }/#/${ shortUrl }`,
     }
   }
 
