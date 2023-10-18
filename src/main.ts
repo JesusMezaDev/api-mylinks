@@ -8,6 +8,7 @@ async function bootstrap() {
     cors: {
       origin: [process.env.MYSOFTLINKS_URL.replace('/#', '')],
       methods: ['GET', 'POST'],
+      preflightContinue: false,
     }
   });
   app.setGlobalPrefix('api');
