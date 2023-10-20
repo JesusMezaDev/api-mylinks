@@ -6,13 +6,16 @@
             "use": "@vercel/node"
         }
     ],
-    "headers": [
+    "routes": [
         {
-          "source": "/api/(.*)",
-          "headers": [
-            { "key": "Access-Control-Allow-Origin", "value": "https://mshl.lat" },
-            { "key": "Access-Control-Allow-Methods", "value": "GET,POST" }
-          ]
+            "src": "/(.*)",
+            "dest": "src/main.ts",
+            "methods": [
+                "GET",
+                "POST",
+                "OPTIONS"
+            ]
+
         }
-      ]
+    ]
 }
