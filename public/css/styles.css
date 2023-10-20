@@ -1,10 +1,46 @@
-html, body {
-    padding: 20px;
-    background-color: #343435;
-    font-family: 'Courier New', Courier, monospace;
+*,
+:after,
+:before  {
+    box-sizing: border-box;
 }
 
-h1 {
-    font-size: 20px;
+html, body {
+    padding: 20px;
+    background-color: #212529;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h3 {
+    font-size: 1.75rem;
     color: #d4d4dd;
+}
+
+div {
+    display: block;
+}
+
+.container {
+    max-width: 1320px;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.content-middle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 10px);
+    padding: 10px;
+}
+
+.justify-content-center {
+    display: flex;
+    justify-content: center;
+    color: white;
 }
