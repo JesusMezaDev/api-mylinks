@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  console.log('process.env.MYSOFTLINKS_URL', process.env.MYSOFTLINKS_URL);
   const app = await NestFactory.create(AppModule, {
     cors: {
       origin: [process.env.MYSOFTLINKS_URL],
