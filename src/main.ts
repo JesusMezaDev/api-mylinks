@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: [process.env.MYSOFTLINKS_URL],
+      origin: ['https://www.cutlink.fyi'],//[process.env.MYSOFTLINKS_URL],--> No sé por qué ya no quiere funcionar con el .env
       methods: ['GET', 'POST'],
       preflightContinue: false,
     }
