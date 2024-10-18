@@ -1,19 +1,8 @@
-import { IsInt, IsString, Min, MinLength } from 'class-validator';
+import { IsInt, IsString, IsUrl, Length, Min, MinLength } from 'class-validator';
 
 export class CreateLinkDto {
     @IsString()
     @MinLength(1)
+    @IsUrl()
     url: string;
-
-    @IsString()
-    @MinLength(8)
-    shortUrl: string;
-    
-    @IsInt()
-    @Min(0)
-    visited: number;
-    
-    @IsString()
-    @MinLength(10)
-    createdAt: string;
 }

@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Model, isValidObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { ConfigService } from '@nestjs/config';
 
 import { CreateLinkDto } from './dto/create-link.dto';
 
@@ -10,16 +11,23 @@ import { Link } from './entities/link.entity';
 export class LinksService {
   constructor(
     @InjectModel(Link.name)
-    private readonly linknModel: Model<Link>
-    ) {}
+    private readonly linknModel: Model<Link>,
+    private readonly configService: ConfigService
+  ) {}
 
   async create(createLinkDto: CreateLinkDto) {
     try {
-      const link = await this.linknModel.create(createLinkDto);
-      
-      const { url, shortUrl } =  link;
+      const { url } = createLinkDto;
+      const shortUrl = Math.random().toString(36).substring(2, 10);
 
-      return { url, shortUrl: `${ process.env.MYSOFTLINKS_URL }/#/${ shortUrl }` }
+      await this.linknModel.create({
+        url,
+        shortUrl,
+        visited: 0,
+        createdAt: new Date().toLocaleString('es-mx', { timeZone: 'America/Mazatlan' }),
+      });
+      
+      return { url, shortUrl: `${ this.configService.get<string>('MYSOFTLINKS_URL') }/${ shortUrl }` }
     } catch (error) {
       this.handleErrors(error);
     }
