@@ -1,16 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: ['https://www.cutlink.fyi'],//[process.env.MYSOFTLINKS_URL],--> No sé por qué ya no quiere funcionar con el .env
-      methods: ['GET', 'POST'],
-      preflightContinue: false,
-    }
+  const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const originUrl = configService.get<string>('MYSOFTLINKS_URL');
+
+  app.enableCors({
+    origin: originUrl,
+    methods: ['GET', 'POST'],
+    preflightContinue: false,
   });
+
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe ({
