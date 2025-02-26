@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const originUrl = configService.get<string>('MYSOFTLINKS_URL');
+  const originUrl = 'https://cutlink.fyi';//configService.get<string>('MYSOFTLINKS_URL');
 
   app.enableCors({
     origin: originUrl,
